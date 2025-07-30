@@ -30,3 +30,18 @@ class Fetcher:
                 else:
                     break
         return posts
+
+    async def fetch_latest(self, channel: str, limit: int = 100):
+        posts = []
+        entity = await self.client.get_entity(channel)
+        async for msg in self.client.iter_messages(entity, limit=limit):
+            posts.append({
+                "id": msg.id,
+                "channel": channel,
+                "date": msg.date,
+                "text": msg.message or "",
+                "views": getattr(msg, "views", 0),
+                "forwards": getattr(msg, "forwards", 0),
+                "reactions": sum(r.count for r in msg.reactions.results) if msg.reactions else 0
+            })
+        return posts
