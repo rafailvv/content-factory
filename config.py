@@ -12,3 +12,5 @@ class Config:
         self.telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 
         self.source_channels = ["mosguru", "moscowmap", "msk_live"]
+
+        self.text_style = "Дружелюбный и информативный тон"

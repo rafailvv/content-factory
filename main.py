@@ -7,6 +7,8 @@ from telethon import TelegramClient
 
 from config import Config
 from fetcher import Fetcher
+from image_generator import ImageGenerator
+from rephraser import Rephraser
 from selector import Selector
 
 
@@ -17,10 +19,19 @@ async def do_post(cfg: Config):
 
     fetcher = Fetcher(client=tele_client, channels=cfg.source_channels)
     selector = Selector(fetcher, 100)
+    rephraser = Rephraser()
+    image_gen = ImageGenerator()
 
-    posts = await fetcher.fetch_between(datetime(2025, 7, 25, 10,0,0))
-    posts = await selector.channel_top(posts)
-    print("Список постов:", posts)
+    posts = await fetcher.fetch_between(datetime(2025, 7, 29, 10,0,0))
+    top = await selector.channel_top(posts)
+    print("Список постов:", top)
+    if top:
+        rewritten = rephraser.rewrite(top["text"], cfg.text_style)
+        print(f"Текст переписан: {rewritten}")
+
+        img_path = image_gen.generate(rewritten, filename="out.png")
+        print(f"Картинка сохранена: {img_path}")
+
 
     await tele_client.disconnect()
     await bot.session.close()
