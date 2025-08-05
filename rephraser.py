@@ -31,4 +31,11 @@ class Rephraser:
         return text
 
     def generate_image_prompt(self, text: str, image_style: str) -> str:
-        pass
+        prompt = (
+            f"{image_style}. На основе текста: «{text}» "
+            "— короткий лаконичный промт для генерации изображения. "
+            "В ответе пришли только промт без каких-либо лишних комментариев или пояснений."
+        )
+        url = self.text_api + quote(prompt, safe="")
+        resp = requests.get(url, timeout=30)
+        return resp.text.strip()

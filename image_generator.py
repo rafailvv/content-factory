@@ -1,6 +1,7 @@
 from urllib.parse import quote
 
 import requests
+from PIL import Image
 
 
 class ImageGenerator:
@@ -13,5 +14,11 @@ class ImageGenerator:
 
         with open(filename, "wb") as f:
             f.write(resp.content)
+
+        with Image.open(filename) as img:
+            width, height = img.size
+            new_height = height - 60
+            cropped = img.crop((0, 0, width, new_height))
+            cropped.save(filename)
 
         return filename

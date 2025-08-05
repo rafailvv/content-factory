@@ -2,3 +2,5 @@ telethon
 aiogram
 python-dotenv
 requests
+pillow
+apscheduler

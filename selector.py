@@ -28,6 +28,8 @@ class Selector:
         baseline = {}
 
         for p in post:
+            if not p["text"]:
+                continue
             ch = p["channel"]
             if ch not in baseline:
                 baseline[ch] = await self.channel_baseline(ch)

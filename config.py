@@ -14,3 +14,7 @@ class Config:
         self.source_channels = ["mosguru", "moscowmap", "msk_live"]
 
         self.text_style = "Дружелюбный и информативный тон"
+        self.image_style = "Реалистичные изображения"
+
+        self.target_channel = "@moscow_actual_news"
+        self.post_schedule_utc = ["20:17", "15:00"]
